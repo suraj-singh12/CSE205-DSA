@@ -25,7 +25,7 @@ void insert(int *A, int &n, int size, int index, int elem){         // n(no of e
 }
 
 void deleteFromIndex(int *A, int &n, int index){
-    if(index >= n){
+    if(index >= n || index < 0){
         cout << "Error!!, index is out of range.\n";
         return ;
     }
@@ -67,7 +67,7 @@ void bubbleSort(int *A, int n){
         for(int j = 0; j < n-1-i; j++){
             if(A[j] > A[j+1]){
                 flag = true;
-                
+                // swap
                 int tmp = A[j];
                 A[j] = A[j+1];
                 A[j+1] = tmp;
