@@ -97,7 +97,7 @@ void insertBeforeLargest(int *A, int &n, int size, int elem){
     insert(A, n, size, index, elem);
 }
 
-void insertion_sort(int *A, int n)      // will sort in ascending order
+void insertionSort(int *A, int n)      // will sort in ascending order
 {
     for (int j = 1; j < n; j++)
     {
@@ -114,6 +114,25 @@ void insertion_sort(int *A, int n)      // will sort in ascending order
     
 }
 
+void selectionSort(int *A, int n)
+{
+    for(int i = 0; i < n - 1; ++i)      // for wall (it goes from [0->n-1)  )
+    {
+        int min = i;            // ith element as min
+        for(int j = i+1; j < n; ++j)        // find if any other element in [i+1 to n) is smaller than A[min]
+        {
+            if(A[j] < A[min])       // if found set min = that element
+                min = j;
+        }
+        if (min!=i)                 // if there was an element in [i+1,n) area, then min will be not i, if so then swap otherwise do not swap
+        {
+            int tmp = A[min];
+            A[min] = A[i];
+            A[i] = tmp;
+        }
+        print(A,n);     // print the each ith pass
+    }
+}
 
 int main()
 {
@@ -152,7 +171,8 @@ int main()
     // print(arr, n);
     
     // insertBeforeLargest(arr, n, size,45);
-    insertion_sort(arr,n);
+    // insertionSort(arr,n);
+    selectionSort(arr,n);
     print(arr,n);
     return 0;
 }
