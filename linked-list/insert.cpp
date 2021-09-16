@@ -48,6 +48,43 @@ void insertAtEnd(){
     }
 }
 
+void insertSorted(){
+    node *NEW = new node;
+    cout << "Enter the data: ";
+    cin >> NEW->data;
+    
+    node *save, *ptr;
+    if(start == NULL){
+        // save = NULL;
+        // ptr = NULL;
+
+        NEW->link = NULL;
+        start = NEW;
+    } else if(start->link == NULL){
+        save = NULL;
+        ptr = start;
+
+        if(ptr->data < NEW->data){
+            NEW->link = NULL;
+            ptr->link = NEW;
+        } else{
+            NEW->link = start;
+            start = NEW;
+        }
+    } else{
+        save = start;
+        ptr = start->link;
+
+        while(ptr != NULL && ptr->data < NEW->data){
+            save = ptr;
+            ptr = ptr->link;
+        }
+        NEW->link = save->link;
+        save->link = NEW;
+    }
+}
+
+
 int main()
 {
     int choice;
@@ -55,6 +92,7 @@ int main()
         cout << "\n\n1. Create a linked list\n";
         cout << "2. Insert in the beginning\n";
         cout << "3. Insert at end\n";
+        cout << "4. Insert in Sorted List\n";
         cout << "9. Print the linked list contents\n";
         cout << "0. Exit\n";
 
@@ -74,6 +112,9 @@ int main()
                     break;
             case 3:
                     insertAtEnd();
+                    break;
+            case 4:
+                    insertSorted();
                     break;
             case 9:
                     cout << "Contents are: ";
