@@ -84,6 +84,45 @@ void insertSorted(){
     }
 }
 
+// INCOMPLETE
+void deleteItem(char c){
+    node *locp, *loc;
+    node *ptr = start;
+    if(ptr == NULL){                // if the list is empty
+        locp = NULL;
+        loc = NULL;
+        cout << "Underflow !!";
+    } else if(ptr->link == NULL){       // if only 1 node in list
+        locp = NULL;
+        loc = start;
+        if(loc->data == c){
+            start = loc = NULL;
+        }
+    } else{                         // if list has nodes > 1
+        locp = start;
+        loc = start->link;
+        
+        if(locp->data == c){        // if first node matches, then just update start pointer and that's it
+            start = start->link;
+        } 
+        else{           // check from node 2
+            
+            while(loc != NULL && loc->data != c){
+                locp = loc;
+                loc = loc->link;
+            }
+
+            // now check if we did not reach end of list, that means element matched a node's data
+            // so delete that node
+            if(loc != NULL){
+                locp->link = loc->link;
+                loc->link = NULL;   // optional but good
+            } 
+            else        // if loc is NULL, that means, we did not find a node having the element asked to delete
+                cout << c << " does not exist in the list !";
+        }
+    }
+}
 
 int main()
 {
@@ -93,6 +132,7 @@ int main()
         cout << "2. Insert in the beginning\n";
         cout << "3. Insert at end\n";
         cout << "4. Insert in Sorted List\n";
+        cout << "5. Delete from list\n";
         cout << "9. Print the linked list contents\n";
         cout << "0. Exit\n";
 
@@ -115,6 +155,12 @@ int main()
                     break;
             case 4:
                     insertSorted();
+                    break;
+            case 5:
+                    char c;
+                    cout << "Enter element to be deleted: ";
+                    cin >> c;
+                    deleteItem(c);
                     break;
             case 9:
                     cout << "Contents are: ";
