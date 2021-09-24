@@ -2,7 +2,7 @@
 using namespace std;
 
 struct node{
-    char data;
+    int data;
     node *link;
 };
 node *start = NULL;
@@ -57,71 +57,72 @@ void insertSorted(){
     if(start == NULL){
         // save = NULL;
         // ptr = NULL;
-
         NEW->link = NULL;
         start = NEW;
-    } else if(start->link == NULL){
-        save = NULL;
-        ptr = start;
-
-        if(ptr->data < NEW->data){
-            NEW->link = NULL;
-            ptr->link = NEW;
-        } else{
-            NEW->link = start;
-            start = NEW;
-        }
+    } else if(NEW->data < start->data){
+        // save = NULL;
+        // ptr = start;
+        NEW->link = start;
+        start = NEW;
     } else{
         save = start;
         ptr = start->link;
-
+        // here using two pointer approach to keep a track of previous node's address
         while(ptr != NULL && ptr->data < NEW->data){
             save = ptr;
             ptr = ptr->link;
         }
-        NEW->link = save->link;
-        save->link = NEW;
+
+        NEW->link = ptr;        // NEW node points to ptr (node ahead of it)
+        save->link = NEW;       // previous of ptr (save),points to NEW node; 
+        // now this new node is between save and ptr (i.e. insertion done)
     }
 }
 
-// INCOMPLETE
-void deleteItem(char c){
+
+void deleteItem(int c){
     node *locp, *loc;
     node *ptr = start;
     if(ptr == NULL){                // if the list is empty
         locp = NULL;
         loc = NULL;
         cout << "Underflow !!";
-    } else if(ptr->link == NULL){       // if only 1 node in list
-        locp = NULL;
-        loc = start;
-        if(loc->data == c){
-            start = loc = NULL;
-        }
+    } else if(start->data == c){       // if first node itself matches the data 
+        // locp = NULL;
+        // loc = start;
+        start = start->link;
     } else{                         // if list has nodes > 1
         locp = start;
         loc = start->link;
         
-        if(locp->data == c){        // if first node matches, then just update start pointer and that's it
-            start = start->link;
-        } 
-        else{           // check from node 2
-            
-            while(loc != NULL && loc->data != c){
-                locp = loc;
-                loc = loc->link;
-            }
-
-            // now check if we did not reach end of list, that means element matched a node's data
-            // so delete that node
-            if(loc != NULL){
-                locp->link = loc->link;
-                loc->link = NULL;   // optional but good
-            } 
-            else        // if loc is NULL, that means, we did not find a node having the element asked to delete
-                cout << c << " does not exist in the list !";
+        // check from node 2
+        while(loc != NULL && loc->data != c){
+            locp = loc;
+            loc = loc->link;
         }
+
+        // now check if we did not reach end of list, that means element matched a node's data
+        // so delete that node
+        if(loc != NULL){
+            locp->link = loc->link;
+            loc->link = NULL;   // optional but good
+        } 
+        else        // if loc is NULL, that means, we did not find a node having the element asked to delete
+            cout << c << " does not exist in the list !";
     }
+}
+
+// searches for the given element in the list, if found prints true; else prints false
+void searchInList(int d){
+    node *ptr = start;
+    while(ptr != NULL){
+        if(ptr->data == d){
+            cout << "True\n";
+            return;
+        }
+        ptr = ptr->link;    // move ahead to next link
+    }
+    cout << "False\n";
 }
 
 int main()
@@ -133,6 +134,7 @@ int main()
         cout << "3. Insert at end\n";
         cout << "4. Insert in Sorted List\n";
         cout << "5. Delete from list\n";
+        cout << "6. Search an element\n";
         cout << "9. Print the linked list contents\n";
         cout << "0. Exit\n";
 
@@ -153,15 +155,20 @@ int main()
             case 3:
                     insertAtEnd();
                     break;
-            case 4:
+            case 4: // assuming list is sorted in ascending order
                     insertSorted();
                     break;
             case 5:
-                    char c;
+                    int c;
                     cout << "Enter element to be deleted: ";
                     cin >> c;
                     deleteItem(c);
                     break;
+            case 6:
+                    int elem;
+                    cout << "Enter the element to be searched for: ";
+                    cin >> elem;
+                    searchInList(elem);
             case 9:
                     cout << "Contents are: ";
                     print();
