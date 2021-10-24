@@ -1,3 +1,7 @@
+// array implementation of binary tree
+
+// NOTE : The formulae used in program are modified ones. NOT to be used in exams.
+
 #include <iostream>
 #include <math.h>
 using namespace std;
